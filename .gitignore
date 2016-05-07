@@ -1,0 +1,13 @@
+/vendor
+/node_modules
+/public/storage
+Homestead.yaml
+Homestead.json
+.env
+google_key
+laravel_app_cheat_sheet.odt
+laravel_cheat_sheet
+/nbproject
+plan.odt
+powered-by-google.zip
+todo
