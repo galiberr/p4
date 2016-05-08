@@ -1,12 +1,3 @@
-// This example adds a search box to a map, using the Google Place Autocomplete
-// feature. People can enter geographical searches. The search box will return a
-// pick list containing a mix of places and predicted search terms.
-// This example requires the Places library. Include the libraries=places
-// parameter when you first load the API. For example:
-// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
-
-
 function initAutocomplete() {
         var map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: 42.9956, lng: -71.4548},
@@ -88,7 +79,40 @@ function initAutocomplete() {
                         }
                 });
                 map.fitBounds(bounds);
+                if (callAjax) {
+                        executeAjax();
+                }
         });
+}
+
+function executeAjax() {
+    alert("New place!");
+    // Set up the ajax call; see http://api.jquery.com/jquery.ajax for more details
+    $.ajax({
+        url: '/events/search', // Route that will handle the request; its job is to return us books.
+        method: 'POST',
+        dataType : 'html', // Kind of data we're expecting to get back
+        data: { // Two pieces of data we'll send with the request
+            '_token': $('input[name=_token]').val(),
+            'placeResult': $('#placeResult').val()
+        },
+        // What to do before each ajax
+        beforeSend: function() {
+            // $('#loading').show();
+            $('#results').removeClass('error');
+        },
+        // What to do upon completion of a successful ajax call
+        success: function(data) {
+            // $('#loading').hide();
+            $('#results').html(data);
+        },
+        // What to do upon completion of an unsuccessful ajax call
+        error: function() {
+            $('#results').html('Sorry, there was an error; your request could not be completed.');
+            $('#results').addClass('error');
+        }
+
+    });
 }
 
 function convertPlaceResultToJSON(placeResult) {
@@ -110,3 +134,4 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
                 'Error: The Geolocation service failed.' :
                 'Error: Your browser doesn\'t support geolocation.');
 }
+

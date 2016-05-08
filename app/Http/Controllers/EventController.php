@@ -37,19 +37,19 @@ class EventController extends Controller {
         }
 
         public function getEdit() {
-                return view('');
+                return view('events/edit');
         }
         
         public function postEdit(Request $request) {
-                return view('');
+                return view('events/edit');
         }
 
         public function getDetail() {
-                return view('');
+                return view('events/detail');
         }
 
         public function postDetail(Request $request) {
-                return view('');
+                return view('events/detail');
         }
 
 }

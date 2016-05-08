@@ -20,6 +20,8 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/users/{id}/edit', 'UserController@getEdit');
         Route::post('/users/{id}/edit', 'UserController@postEdit');
         // Detail page includes functionality to post a KJ rating
+        Route::get('/users/2', 'UserController@getDetail2');
+        Route::post('/users/2', 'UserController@postDetail2');
         Route::get('/users/{id}', 'UserController@getDetail');
         Route::post('/users/{id}', 'UserController@postDetail');
 
