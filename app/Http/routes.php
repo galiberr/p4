@@ -1,20 +1,36 @@
 <?php
 
+/*
+ * Authentication/registration
+ */
+Route::get('/login', 'Auth\AuthController@getLogin');
+Route::post('/login', 'Auth\AuthController@postLogin');
+Route::get('/register', 'UserController@getRegister');
+Route::post('/register', 'UserController@postRegister');
+// Route::get('/register', 'Auth\AuthController@getRegister');
+// Route::post('/register', 'Auth\AuthController@postRegister');
+Route::get('/logout', 'Auth\AuthController@logout');
+
 Route::get('/googleMapsTest2', function () {
-    return view('googleMapsTest2');
+        return view('googleMapsTest2');
 });
 
-Route::group(['middleware' => ['web']], function () {
-        Route::get('/', function () {
-            return view('welcome');
-        });
+/*
+ * Routes accessible with and without authentication
+ * (index and event search)
+ */
+Route::get('/', 'EventController@getSearch');
+Route::get('/events/search', 'EventController@getSearch');
+Route::post('/events/search', 'EventController@postSearch');
 
-        // Add login, logout
+/*
+ * Routes requiring authentication
+ */
+Route::group(['middleware' => 'auth'], function () {
+
         /*
          * User-related functionality
          */
-        Route::get('/register', 'UserController@getCreate');
-        Route::post('/register', 'UserController@postCreate');
         Route::get('/users/search', 'UserController@getSearch');
         Route::post('/users/search', 'UserController@postSearch');
         Route::get('/users/{id}/edit', 'UserController@getEdit');
@@ -30,8 +46,10 @@ Route::group(['middleware' => ['web']], function () {
          */
         Route::get('/events/create', 'EventController@getCreate');
         Route::post('/events/create', 'EventController@postCreate');
-        Route::get('/events/search', 'EventController@getSearch');      // functionality just on index?
-        Route::post('/events/search', 'EventController@postSearch');     // functionality just on index?
+        Route::get('/events/create2', 'EventController@getCreate2');
+        Route::post('/events/create2', 'EventController@postCreate2');
+        Route::get('/events/create3', 'EventController@getCreate3');
+        Route::post('/events/create3', 'EventController@postCreate3');
         Route::get('/events/{id}/edit', 'EventController@getEdit');
         Route::post('/events/{id}/edit', 'EventController@postEdit');
         // Detail page includes functionality to add an event post
@@ -47,6 +65,4 @@ Route::group(['middleware' => ['web']], function () {
         // Detail page includes functionality to post a locale rating
         Route::get('/locales/{id}', 'LocaleController@getDetail');
         Route::post('/locales/{id}', 'LocaleController@postDetail');
-
-        
 });

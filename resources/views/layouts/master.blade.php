@@ -7,14 +7,30 @@
                 <meta charset='utf-8'>
                 <meta name='viewport' content='width=device-width, initial-scale=1'>
                 <link href='/css/cerulean/bootstrap.css' rel='stylesheet'>
-                <link href='/css/cerulean/bootstrap.min.css' rel='stylesheet'>
+                <link href='/css/styles.css' rel='stylesheet'>
                 @yield('head')
         </head>
         <body>
                 <div class="container">
+                        {{-- Main banner --}}
                         <div class="jumbotron">
                                 <h1>KaraokeTracker</h1>
                                 <p>Find karaoke events in your area.</p>
+                        </div>
+                        {{-- Login status/registration --}}
+                        <div class="row">
+                                <div class="col-lg-9">
+                                        @if(Session::get('flash_message') != null)
+                                            {{ Session::get('flash_message') }}
+                                        @endif
+                                </div>
+                                <div class="col-lg-3">
+                                        @if(Auth::check())
+                                        Welcome, {{ Auth::user()->user_name }}! <a href="/logout">Logout</a>
+                                        @else
+                                        <a href="/login">Login</a>  Not a user? <a href="/register">Register</a>
+                                        @endif
+                                </div>
                         </div>
                         <nav class="navbar navbar-default">
                                 <div class="container-fluid">
@@ -26,14 +42,15 @@
                                                         <li><a href="#">Find a user</a></li>
                                                         <li><a href="#">Look up lyrics</a></li>
                                                         <li><a href="#">Find lyrics by singing</a></li>
+                                                </ul>
                                         </div>
                                 </div>
                         </nav>
                         <div class="row">
                                 {{-- User profile --}}
                                 <div class="col-lg-12">
-                                {{-- Main page content --}}
-                                @yield('content')                                        
+                                        {{-- Main page content --}}
+                                        @yield('content')                                        
                                 </div>
                         </div>
                         <section>
@@ -45,7 +62,6 @@
                                 <a href='http://p4.pyxisweb.me/' target='_blank'> View Live</a>
                         </footer>
                 </div>
-
                 @yield('body')
         </body>
 </html>

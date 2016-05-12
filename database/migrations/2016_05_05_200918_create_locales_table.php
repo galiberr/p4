@@ -14,10 +14,11 @@ class CreateLocalesTable extends Migration
         {
                 Schema::create('locales', function (Blueprint $table) {
                         $table->increments('id');
-                        $table->string('location_link');
-                        $table->string('name');
-                        $table->string('address');
-                        $table->string('image');
+                        $table->string('gm_place_id');
+                        $table->string('gm_name');
+                        $table->string('gm_formatted_address');
+                        $table->string('gm_lat');
+                        $table->string('gm_lng');
                         $table->timestamps();
                 });
         }

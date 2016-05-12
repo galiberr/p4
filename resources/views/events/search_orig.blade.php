@@ -24,10 +24,15 @@
                 Place address = {{ $test['placeResult']['formatted_address'] }} <br />
                 Place latitude = {{ $test['placeResult']['geometry']['location']['lat'] }} <br />
                 Place longitude = {{ $test['placeResult']['geometry']['location']['lng'] }} <br />
-        </body>
-        <script>var callAjax = true;</script>
-        <script src="/css/googleMaps.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0dqL134UviB9iw-Eqaj2aKjUCBLCsezM&libraries=places&callback=initAutocomplete"
-                async defer></script>
+                
+                <h2>Results:</h2>
+                <div id='results'></div>
 
+                <!-- <script src="/css/searchEvent.js"></script> -->
+                <script>var callAjax = true;</script>
+                <script src="/css/googleMaps.js"></script>
+                <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0dqL134UviB9iw-Eqaj2aKjUCBLCsezM&libraries=places&callback=initAutocomplete"
+                async defer></script>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        </body>
 </html>

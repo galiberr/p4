@@ -5,15 +5,12 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateEventsTable extends Migration
 {
-        /**
-         * Run the migrations.
-         *
-         * @return void
-         */
         public function up()
         {
                 Schema::create('events', function (Blueprint $table) {
                         $table->increments('id');
+                        $table->string('title');
+                        $table->string('description');
                         $table->integer('kj_id')->unsigned();
                         $table->integer('locale_id')->unsigned();
                         $table->boolean('recurring');
@@ -21,7 +18,7 @@ class CreateEventsTable extends Migration
                         $table->date('next_date');
                         $table->time('start_time');
                         $table->time('end_time');
-                        $table->string('image');
+                        $table->boolean('image');
                         $table->timestamps();
                         $table->foreign('kj_id')->references('id')->on('users');
                         $table->foreign('locale_id')->references('id')->on('locales');
