@@ -1,14 +1,14 @@
 @extends('layouts.master')
 
 @section('title')
-KTracker - Register
+KaraokeTracker - Register
 @stop
 
 @section('head')
 @stop
 
 @section('navbar')
-<li><a href="/events/">Login</a></li>
+<li><a href="/login">Login</a></li>
 <li class="active"><a href="#">Register with KaraokeTracker<span class="sr-only">(current)</span></a></li>
 <li><a href="/events/search">Search for an event</a></li>
 <li><a href="http://www.lyricsworld.com/" target="_blank">Look up lyrics</a></li>

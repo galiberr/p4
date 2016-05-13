@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth'], function () {
         // Detail page includes functionality to post a KJ rating
         Route::get('/users/{id}', 'UserController@getDetail');
         Route::post('/users/{id}', 'UserController@postDetail');
+
         /*
          * Event CRUD functionality
          */
