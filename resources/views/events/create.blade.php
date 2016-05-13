@@ -10,6 +10,15 @@ KaraokeTracker - Create Event
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 @stop
 
+@section('navbar')
+<li class="active"><a href="#">Create a new event<span class="sr-only">(current)</span></a></li>
+<li><a href="/events/myEvents">See my events</a></li>
+<li><a href="/users/editMyProfile">Edit my profile</a></li>
+<li><a href="/events/search">Search events</a></li>
+<li><a href="http://www.lyricsworld.com/" target="_blank">Look up lyrics</a></li>
+<li><a href="http://www.soundhound.com/" target="_blank">Find song by singing</a></li>
+@stop
+
 @section('googleMapsPageContent')
 First use the Google Maps text input to the right to select a locale for your karaoke event...
     @if(count($errors) > 0)

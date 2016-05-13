@@ -26,10 +26,10 @@ Route::group(['middleware' => 'auth'], function () {
         /*
          * User-related functionality
          */
-        Route::get('/users/search', 'UserController@getSearch');
-        Route::post('/users/search', 'UserController@postSearch');
         Route::get('/users/{id}/edit', 'UserController@getEdit');
         Route::post('/users/{id}/edit', 'UserController@postEdit');
+        Route::get('/users/editMyProfile', 'UserController@getEditMyProfile');
+        Route::post('/users/editMyProfile', 'UserController@postEditMyProfile');
         Route::get('/users/confirm-delete/{id}', 'UserController@getConfirmDelete');
         Route::get('/users/delete/{id}', 'UserController@getDelete');
         // Detail page includes functionality to post a KJ rating
@@ -42,8 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/events/create', 'EventController@postCreate');
         Route::get('/events/{id}/edit', 'EventController@getEdit');
         Route::post('/events/{id}/edit', 'EventController@postEdit');
-        Route::get('/events/search', 'EventController@getSearch');
-        Route::post('/events/search', 'EventController@postSearch');
+        Route::get('/events/myEvents', 'EventController@getShowMyEvents');
         Route::get('/events/confirm-delete/{id}', 'EventController@getConfirmDelete');
         Route::get('/events/delete/{id}', 'EventController@getDelete');
         // Detail page includes functionality to add an event post

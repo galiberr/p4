@@ -7,6 +7,14 @@ KTracker - Login
 @section('head')
 @stop
 
+@section('navbar')
+<li class="active"><a href="#">Login<span class="sr-only">(current)</span></a></li>
+<li><a href="/events/register">Register with KaraokeTracker</a></li>
+<li><a href="/events/search">Search for an event</a></li>
+<li><a href="http://www.lyricsworld.com/" target="_blank">Look up lyrics</a></li>
+<li><a href="http://www.soundhound.com/" target="_blank">Find song by singing</a></li>
+@stop
+
 @section('content')
 @if(count($errors) > 0)
 <ul class='errors'>

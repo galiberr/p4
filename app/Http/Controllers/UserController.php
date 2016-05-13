@@ -93,6 +93,10 @@ class UserController extends Controller {
                 return view('users/edit');
         }
 
+        public function getEditMyProfile() {
+                return redirect ('users/' . \Auth::user()->id . '/edit');
+        }
+
         public function getDetail($id) {
                 $user = \App\Libraries\User::getUser($id);
                 if (is_null($user)) {

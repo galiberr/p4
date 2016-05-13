@@ -11,6 +11,11 @@ class Event {
                 return $event;
         }
 
+        public static function getEventsForKJID($kj_id) {
+                $events = \App\Event::where('kj_id', '=', $kj_id)->with('kj')->with('locale')->with('posts')->get();
+                return $events;
+        }
+
         public static function createEvent($request, $locale) {
                 $event = new \App\Event();
                 $event->title = $request->title;
@@ -22,7 +27,7 @@ class Event {
                 $event->next_date = $request->next_date;
                 $event->start_time = $request->start_time + ($request->start_timeAMPM * 12);
                 $event->end_time = $request->end_time + ($request->end_timeAMPM * 12);
-                $event->end_time = hasFile('image') && $request->file('image')->isValid();
+                $event->end_time = $request->hasFile('image') && $request->file('image')->isValid();
                 $event->save();
                 if ($request->hasFile('image') && $request->file('image')->isValid()) {
                         $request->file('image')->move(base_path() . '/public/assets/uploads/events' . $event->id . '/', 'original');
@@ -72,7 +77,7 @@ class Event {
         
         public static function nextDate($dayOfWeek) {
                 if (\Carbon\Carbon::now()->dayOfWeek == $dayOfWeek) {
-                        \Carbon\Carbon::now();
+                        return \Carbon\Carbon::now();
                 } else {
                         switch ($dayOfWeek) {
                                 case 0:

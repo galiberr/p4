@@ -8,6 +8,22 @@ Karaoke Tracker - Locale Detail
 <script src="/css/localeDetail.js"></script>
 @stop
 
+@section('navbar')
+@if (strcmp(\Auth::user()->roles()->first()->role, 'KJ') == 0)
+        <li><a href="/events/create">Create a new event</a></li>
+        <li><a href="/events/myEvents">See my events</a></li>
+        <li><a href="/users/editMyProfile">Edit my profile</a></li>
+        <li><a href="/events/search">Search events</a></li>
+        <li><a href="http://www.lyricsworld.com/" target="_blank">Look up lyrics</a></li>
+        <li><a href="http://www.soundhound.com/" target="_blank">Find song by singing</a></li>
+@else
+        <li><a href="/events/search">Search events</a></li>
+        <li><a href="/users/editMyProfile">Edit my profile</a></li>
+        <li><a href="http://www.lyricsworld.com/" target="_blank">Look up lyrics</a></li>
+        <li><a href="http://www.soundhound.com/" target="_blank">Find song by singing</a></li>
+@endif
+@stop
+
 @section('content')
 @if (!is_null($locale))
 <div class="row">

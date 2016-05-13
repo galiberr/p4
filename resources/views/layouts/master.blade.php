@@ -6,7 +6,7 @@
                 </title>
                 <meta charset='utf-8'>
                 <meta name='viewport' content='width=device-width, initial-scale=1'>
-                <link href='/css/cerulean/bootstrap.css' rel='stylesheet'>
+                <link href='/css/bootstrap.css' rel='stylesheet'>
                 <link href='/css/styles.css' rel='stylesheet'>
                 @yield('head')
         </head>
@@ -40,14 +40,9 @@
                                 <div class="container-fluid">
                                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                                                 <ul class="nav navbar-nav">
-                                                        <li class="active"><a href="#">Edit my profile<span class="sr-only">(current)</span></a></li>
-                                                        <li><a href="#">Create an event</a></li>
-                                                        <li><a href="#">Find an event</a></li>
-                                                        <li><a href="#">Find a user</a></li>
-                                                        <li><a href="#">Look up lyrics</a></li>
-                                                        <li><a href="#">Find lyrics by singing</a></li>
+                                                        @yield('navbar')
                                                 </ul>
-                                        </div>
+                                       </div>
                                 </div>
                         </nav>
                         <div class="row">

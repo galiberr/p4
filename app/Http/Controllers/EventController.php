@@ -81,6 +81,15 @@ class EventController extends Controller {
                 return view('events/edit', ['event' => $event]);
         }
 
+        public function getShowMyEvents() {
+                if (strcmp(\Auth::user()->roles()->first()->role, 'KJ') != 0) {
+                        \Session::flash('flash_message', 'You are not authorized to that page.');
+                        return redirect('/');
+                }
+                $events = \App\Libraries\Event::getEventsForKJID(\Auth::user()->id);
+                return view('events/myEvents', ['events' => $events]);
+        }
+
         public function getDetail($id) {
                 $event = \App\Libraries\Event::getEvent($id);
                 if (is_null($event)) {

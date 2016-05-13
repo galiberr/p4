@@ -7,6 +7,17 @@ KaraokeTracker - Confirm Event Deletion
 @section('head')
 @stop
 
+@section('navbar')
+                <ul class="nav navbar-nav">
+                        <li><a href="/events/create">Create a new event</a></li>
+                        <li><a href="/events/myEvents">See my events</a></li>
+                        <li><a href="/users/editMyProfile">Edit my profile</a></li>
+                        <li><a href="/events/search">Search events</a></li>
+                        <li><a href="http://www.lyricsworld.com/" target="_blank">Look up lyrics</a></li>
+                        <li><a href="http://www.soundhound.com/" target="_blank">Find song by singing</a></li>
+                </ul>
+@stop
+
 @section('content')
 <p>Are you sure you want to delete the event below?<a href="/events/delete/{{ $event->id }}">Delete</a> <a href="/">Cancel</a></p>
 <div class="row">

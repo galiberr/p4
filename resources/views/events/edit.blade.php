@@ -4,6 +4,15 @@
 KaraokeTracker - Edit Event
 @stop
 
+@section('navbar')
+<li><a href="/events/create">Create a new event</a></li>
+<li><a href="/events/myEvents">See my events</a></li>
+<li><a href="/users/editMyProfile">Edit my profile</a></li>
+<li><a href="/events/search">Search events</a></li>
+<li><a href="http://www.lyricsworld.com/" target="_blank">Look up lyrics</a></li>
+<li><a href="http://www.soundhound.com/" target="_blank">Find song by singing</a></li>
+@stop
+
 @section('googleMapsPageHead')
   <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   <script src="//code.jquery.com/jquery-1.10.2.js"></script>
