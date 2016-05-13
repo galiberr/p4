@@ -52,6 +52,10 @@ class UserController extends Controller {
             'cc_csv.required_if' => 'Credit card csv required for KJ user.',
         ];
 
+        public function getIndex() {
+                return view('index');
+        }
+
         public function getRegister() {
                 return view('auth/register');
         }

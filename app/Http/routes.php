@@ -13,7 +13,7 @@ Route::get('/logout', 'Auth\AuthController@logout');
  * Routes accessible with and without authentication
  * (index and event search)
  */
-Route::get('/', 'EventController@getSearch');
+Route::get('/', 'UserController@getIndex');
 Route::get('/events/search', 'EventController@getSearch');
 Route::post('/events/search', 'EventController@postSearch');
 
@@ -21,10 +21,9 @@ Route::post('/events/search', 'EventController@postSearch');
  * Routes requiring authentication
  */
 Route::group(['middleware' => 'auth'], function () {
-
         
         /*
-         * User-related functionality
+         * User CRUD functionality
          */
         Route::get('/users/{id}/edit', 'UserController@getEdit');
         Route::post('/users/{id}/edit', 'UserController@postEdit');
@@ -36,7 +35,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/users/{id}', 'UserController@getDetail');
         Route::post('/users/{id}', 'UserController@postDetail');
         /*
-         * Event-related functionality
+         * Event CRUD functionality
          */
         Route::get('/events/create', 'EventController@getCreate');
         Route::post('/events/create', 'EventController@postCreate');

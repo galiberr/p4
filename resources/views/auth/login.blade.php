@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-KTracker - Login
+KaraokeTracker - Login
 @stop
 
 @section('head')
