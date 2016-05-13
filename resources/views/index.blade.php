@@ -31,7 +31,7 @@ KaraokeTracker
 <h2>Welcome to KaraokeTracker!</h2>
 <p class="lead">
 KaraokeTracker is a new tool designed for people who love to sing, watch and host karaoke. Looking
-for something to do this weekend? Just go to the <a href="/register">event search</a> page to find karaoke that's going on
+for something to do this weekend? Just go to the <a href="/events/search">event search</a> page to find karaoke that's going on
 in your area. Even better, increase your fun by becoming a <a href="/register">registered KaraokeTracker user</a>.
 You'll receive access to increased functionality like event postings and rating KJs and
 karaoke locations.

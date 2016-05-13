@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder {
                     'state' => 'VT',
                     'zip' => '05033',
                     'about_me' => 'I sing karaoke for fun.',
-                    'image' => false,
+                    'image' => true,
                     'credit_card' => '0123456789012345',
                     'cc_exp_month' => 1,
                     'cc_exp_year' => 2020,

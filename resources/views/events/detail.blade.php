@@ -36,7 +36,7 @@ KaraokeTracker - Event Detail
                                 <div class="col-lg-10">
                                         {{ $event->title }} hosted by <a href="/users/{{ $event->kj->id }}">{{ $event->kj->first_name }} {{ $event->kj->last_name }}</a><br />
                                         {{ $event->description }}<br />
-                                        Location: {{ $event->locale->gm_name }} at {{ $event->locale->gm_formatted_address }}<br />
+                                        Location: <a href="/locales/{{ $event->locale->id }}">{{ $event->locale->gm_name }}</a> at {{ $event->locale->gm_formatted_address }}<br />
                                         @if ($event->recurring)
                                         Takes place every {{ \App\Libraries\Event::dayOfWeek($event->day_of_week)}} - next date on {{ \App\Libraries\Event::nextDate($event->day_of_week)->toFormattedDateString() }}
                                         @else
@@ -87,14 +87,23 @@ return false;" class="form-horizontal">
                 </fieldset>
         </form>
 </div>
-<div class="row">
         <div name="posts" id="posts">
                 @foreach ($event->posts as $post)
+<div class="row">
+                <div class="col-lg-4">
+                        <p>On {{ $post->updated_at }} <a href="/users/{{ $post->poster->id }}">{{ $post->poster->user_name }}</a> posted:</p>
+                </div>
+                <div class="col-lg-8">
                 <p>
-                        On {{ $post->updated_at }} <a href="/users/{{ $post->poster->id }}">{{ $post->poster->user_name }}</a> posted: {{ $post->post }}
+                        @if ($post->poster->image)
+                        <img src="/assets/uploads/users/{{ $post->poster->id }}/thumbnail" alt="Poster thumbnail">
+                        @endif
+                        {{ $post->post }}
                 </p>
-                @endforeach
+                </div>
         </div>
+                
+                @endforeach
 </div>
                 </div>
 </div>

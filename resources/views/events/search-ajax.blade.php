@@ -13,7 +13,7 @@
                                 <div class="col-lg-10">
                                         <a href="/events/{{ $event->id }}">{{ $event->title }}</a> hosted by <a href="/users/{{ $event->kj->id }}">{{ $event->kj->first_name }} {{ $event->kj->last_name }}</a><br />
                                         {{ $event->description }}<br />
-                                        Location: {{ $event->locale->gm_name }} at {{ $event->locale->gm_formatted_address }}<br />
+                                        Location: <a href="/locales/{{ $event->locale->id }}">{{ $event->locale->gm_name }}</a> at {{ $event->locale->gm_formatted_address }}<br />
                                         @if ($event->recurring)
                                         Takes place every {{ \App\Libraries\Event::dayOfWeek($event->day_of_week)}} - next date on {{ \App\Libraries\Event::nextDate($event->day_of_week)->toFormattedDateString() }}
                                         @else
