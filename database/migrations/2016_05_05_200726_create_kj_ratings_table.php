@@ -19,8 +19,8 @@ class CreateKjRatingsTable extends Migration
                         $table->integer('rating')->unsigned();
                         $table->string('comment');
                         $table->timestamps();
-                        $table->foreign('kj_id')->references('id')->on('users');
-                        $table->foreign('rater_id')->references('id')->on('users');
+                        $table->foreign('kj_id')->references('id')->on('users')->onDelete('cascade');
+                        $table->foreign('rater_id')->references('id')->on('users')->onDelete('cascade');
                 });
         }
 

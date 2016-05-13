@@ -28,4 +28,11 @@ class User extends Authenticatable {
                 return $this->belongsToMany('\App\Role', 'role_user', 'user_id', 'role_id')->withTimestamps();
         }
 
+        public function events() {
+                return $this->hasMany('\App\Event', 'kj_id');
+        }
+
+        public function ratings() {
+                return $this->hasMany('\App\Kj_rating', 'kj_id');
+        }
 }

@@ -23,6 +23,22 @@ class UserController extends Controller {
             'cc_exp_year' => 'required_if:inputUserType,0|numeric',
             'cc_csv' => 'required_if:inputUserType,0|numeric',
         ];
+        private static $editRules = [
+            'password' => 'required|min:6|confirmed',
+            'email' => 'required|email|max:255:users',
+            'first_name' => 'required_if:inputUserType,0',
+            'last_name' => 'required_if:inputUserType,0',
+            'street_addr1' => 'required_if:inputUserType,0',
+            // 'street_addr2' => 'required_if:inputUserType,0',
+            'city' => 'required_if:inputUserType,0',
+            'state' => 'required_if:inputUserType,0',
+            'zip' => 'required_if:inputUserType,0',
+            // 'about_me' => '',
+            'credit_card' => 'required_if:inputUserType,0',
+            'cc_exp_month' => 'required_if:inputUserType,0|numeric|min:1|max:12',
+            'cc_exp_year' => 'required_if:inputUserType,0|numeric',
+            'cc_csv' => 'required_if:inputUserType,0|numeric',
+        ];
         private static $messages = [
             'first_name.required_if' => 'First name required for KJ user.',
             'last_name.required_if' => 'Last name required for KJ user.',
@@ -43,27 +59,8 @@ class UserController extends Controller {
         public function postRegister(Request $request) {
                 $this->validate($request, self::$rules, self::$messages);
                 $request->flash();
-                $user = new \App\User();
-                $user->user_name = $request->input('user_name');
-                $user->password = \Hash::make($request->input('password'));
-                $user->email = $request->input('email');
-                $user->first_name = $request->input('first_name');
-                $user->last_name = $request->input('last_name');
-                $user->street_addr1 = $request->input('street_addr1');
-                $user->street_addr2 = $request->input('street_addr2');
-                $user->city = $request->input('city');
-                $user->state = $request->input('state');
-                $user->zip = $request->input('zip');
-                $user->about_me = $request->input('about_me');
-                $user->image = $request->hasFile('image') && $request->file('image')->isValid();
-                $user->credit_card = $request->input('credit_card');
-                $user->cc_exp_month = $request->input('cc_exp_month');
-                $user->cc_exp_year = $request->input('cc_exp_year');
-                $user->cc_csv = $request->input('cc_csv');
-                $user->save();
-                if ($request->hasFile('image') && $request->file('image')->isValid()) {
-                        $request->file('image')->move(base_path() . '/public/assets/uploads/' . $user->id . '/', 'image');
-                }
+                $user = \App\Libraries\User::createUser($request);
+                \App\Libraries\User::sendRegistrationEmail($user);
                 return view('auth/register');
         }
 
@@ -75,24 +72,70 @@ class UserController extends Controller {
                 return view('');
         }
 
-        public function getEdit() {
+        public function getEdit($id) {
+                if ($id != \Auth::user()->id) {
+                        \Session::flash('flash_message', 'You are not authorized to this page.');
+                        return redirect('/');
+                }
+                $user = \App\Libraries\User::getUser($id);
+                if (is_null($user)) {
+                        \Session::flash('flash_message', 'No such user exists.');
+                        return redirect('/');
+                }
+                return view('users/edit', ['user' => $user]);
+        }
+
+        public function postEdit(Request $request) {
+                $this->validate($request, self::$editRules, self::$messages);
+                $request->flash();
+                \App\Libraries\User::updateUser(\Auth::user()->id, $request);
+                \Session::flash('flash_message', 'Your user information has been updated.');
                 return view('users/edit');
         }
 
-        public function getDetail2() {
-                return view('users/detail2');
-        }
-
-        public function postDetail2(Request $request) {
-                return view('users/detail2');
-        }
-
-        public function getDetail() {
-                return view('users/detail');
+        public function getDetail($id) {
+                $user = \App\Libraries\User::getUser($id);
+                if (is_null($user)) {
+                        \Session::flash('flash_message', 'No such user exists.');
+                }
+                return view('users/detail', ['user' => $user]);
         }
 
         public function postDetail(Request $request) {
-                return view('users/detail');
+                $new_rating = new \App\Kj_rating();
+                $new_rating->kj_id = intval($request->kj_id);
+                $new_rating->rater_id = \Auth::user()->id;
+                $new_rating->rating = intval($request->kj_rating);
+                $new_rating->comment = $request->kj_comment;
+                $new_rating->save();
+                $user = \App\Libraries\User::getUser($request->kj_id);
+                return view('users/detail-ajax', ['user' => $user]);
         }
 
+        public function getConfirmDelete($id) {
+                $user = \App\Libraries\User::getUser($id);
+                if (is_null($user)) {
+                        \Session::flash('flash_message', 'No such user exists.');
+                        return redirect ("/");
+                }
+                if ($user->id != \Auth::user()->id) {
+                        \Session::flash('flash_message', 'You are not authorized to this action.');
+                        return redirect ("/");
+                }
+                return view('users/delete-confirm', ['user' => $user]);
+        }
+
+        public function getDelete($id) {
+                $user = \App\Libraries\User::getUser($id);
+                if (is_null($user)) {
+                        \Session::flash('flash_message', 'No such user exists.');
+                        return redirect ("/");
+                }
+                if ($user->id != \Auth::user()->id) {
+                        \Session::flash('flash_message', 'You are not authorized to this action.');
+                        return redirect ("/");
+                }
+                $user->delete();
+                return redirect("/");
+        }
 }

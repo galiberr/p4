@@ -20,7 +20,7 @@ class CreateLocaleRatingsTable extends Migration
                         $table->string('comment');
                         $table->timestamps();
                         $table->foreign('locale_id')->references('id')->on('locales');
-                        $table->foreign('rater_id')->references('id')->on('users');
+                        $table->foreign('rater_id')->references('id')->on('users')->onDelete('cascade');
                 });
         }
 

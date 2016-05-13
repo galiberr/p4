@@ -12,6 +12,13 @@ KaraokeTracker - Create Event
 
 @section('googleMapsPageContent')
 First use the Google Maps text input to the right to select a locale for your karaoke event...
+    @if(count($errors) > 0)
+        <ul class='errors'>
+            @foreach ($errors->all() as $error)
+                <li><span class='fa fa-exclamation-circle'></span> {{ $error }}</li>
+            @endforeach
+        </ul>
+    @endif
 <form name="createEventForm" id="createEventForm" method='POST' action='/events/create' class="form-horizontal" enctype="multipart/form-data">
         {!! csrf_field() !!}
         <fieldset>
@@ -154,7 +161,7 @@ First use the Google Maps text input to the right to select a locale for your ka
                                 <div class="form-group">
                                         <label for="select" class="col-lg-2 control-label">Day of week</label>
                                         <div class="col-lg-4">
-                                                <select multiple class="form-control" name="day_of_week" id="day_of_week">
+                                                <select class="form-control" name="day_of_week" id="day_of_week">
                                                         <option value="0">Sunday</option>
                                                         <option value="1">Monday</option>
                                                         <option value="2">Tuesday</option>

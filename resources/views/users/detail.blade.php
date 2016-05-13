@@ -1,55 +1,127 @@
 @extends('layouts.master')
 
 @section('title')
-Karaoke Tracker User Detail
+Karaoke Tracker - User Detail
 @stop
 
 @section('head')
-
+<script src="/css/userDetail.js"></script>
 @stop
 
 @section('content')
-<div class="panel panel-primary">
-        <div class="panel-heading">
-                <h3 class="panel-title">User Profile</h3>
-        </div>
-        <div class="panel-body">
-                {{-- Photo --}}
-                <div class="col-lg-3">
-                        <img src="/assets/uploads/sample/elton_john2.jpg" alt="Elton John">
-                </div>
-                {{-- Description --}}
-                <div class="col-lg-9">
-                        <table class="table table-striped table-hover ">
-                                <tbody>
-                                        <tr>
-                                                <td>User ID</td>
-                                                <td>captainfantastic</td>
-                                        </tr>
-                                        <tr>
-                                                <td>Name</td>
-                                                <td>Reggie Dwight</td>
-                                        </tr>
-                                        <tr>
-                                                <td>Singer/KJ</td>
-                                                <td>Singer</td>
-                                        </tr>
-                                        <tr>
-                                                <td>About me</td>
-                                                <td>Enjoy doing karaoke, the larger the crowd the better.</td>
-                                        </tr>
-                                        <tr>
-                                                <td>Email</td>
-                                                <td>rdwight@gmail</td>
-                                        </tr>
-                                </tbody>
-                        </table> 
-
+@if (!is_null($user))
+<div class="row">
+        <div class="panel panel-default">
+                <div class="panel-body">
+                        <div class="row">
+                                <div class="col-lg-2">
+                                        <img src="/assets/uploads/users/{{ $user->id }}/display_image" alt="User image" />
+                                </div>
+                                <div class="col-lg-10">
+                                        User name: {{ $user->user_name }} <br />
+                                        Real name: {{ $user->first_name }} {{ $user->last_name }} <br />
+                                        User type: {{ $user->roles()->first()->role }} <br />
+                                        About me: {{ $user->about_me }}<br />
+                                </div>
+                        </div>
                 </div>
         </div>
 </div>
+@if ($user->roles()->first()->role === 'KJ')
+<div class="row">
+        <div class="panel panel-default">
+                <div class="panel-heading">Ratings for KJ {{ $user->user_name }}</div>
+                <div class="panel-body">
+<div class="row">
+        <form name="kjRatingForm" id="kjRatingForm" onsubmit="createRating();
+return false;" class="form-horizontal">
+                {!! csrf_field() !!}
+                <fieldset>
+                        <div class="row">
+                                <div class="col-lg-2">
+                                </div>
+                                <div class="col-lg-10">
+                                        <div class="form-group">
+                                                <label class="col-lg-2 control-label">Rating</label>
+                                                <div class="col-lg-10">
+                                                        <div class="radio">
+                                                                <label>
+                                                                        <input name="kj_rating" id="kj_rating1" value="1" checked="" type="radio">
+                                                                        1
+                                                                </label>
+                                                        </div>
+                                                        <div class="radio">
+                                                                <label>
+                                                                        <input name="kj_rating" id="kj_rating2" value="2" type="radio">
+                                                                        2
+                                                                </label>
+                                                        </div>
+                                                        <div class="radio">
+                                                                <label>
+                                                                        <input name="kj_rating" id="kj_rating3" value="3" type="radio">
+                                                                        3
+                                                                </label>
+                                                        </div>
+                                                        <div class="radio">
+                                                                <label>
+                                                                        <input name="kj_rating" id="kj_rating4" value="4" type="radio">
+                                                                        4
+                                                                </label>
+                                                        </div>
+                                                        <div class="radio">
+                                                                <label>
+                                                                        <input name="kj_rating" id="kj_rating5" value="5" type="radio">
+                                                                        5
+                                                                </label>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                        <div class="row">
+                                <div class="col-lg-2">
+                                </div>
+                                <div class="col-lg-10">
+                                        <div class="form-group">
+                                                <label for="kj_comment" class="col-lg-3 control-label">Rate and comment on this KJ:</label>
+                                                <div class="col-lg-9">
+                                                        <input class="form-control" name="kj_comment" id="kj_comment" placeholder="" type="text" value="">
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                        <div class="row">
+                                <div class="col-lg-2">
+                                        <p class="text-danger">
+                                        </p>
+                                </div>
+                                <div class="col-lg-10">
+                                        <div class="form-group">
+                                                <input name="kj_id" id="kj_id" type="hidden" value="{{ $user->id }}">
+                                                <div class="col-lg-1 col-lg-offset-2">
+                                                        <button type="submit" class="btn btn-primary">Rate this KJ</button>
+                                                </div>
+                                        </div>
+                                </div>
+                        </div>
+                </fieldset>
+        </form>
+</div>
+<div class="row">
+        <div name="ratings" id="ratings">
+                @foreach ($user->ratings as $rating)
+                <p>
+                        On {{ $rating->updated_at }} <a href="/users/{{ $rating->rater->id }}">{{ $rating->rater->user_name }}</a> gave {{ $user->user_name }} a rating of {{ $rating->rating }} and commented: {{ $rating->comment }}
+                </p>
+                @endforeach
+        </div>
+</div>
+                </div>
+</div>
+@endif
+@endif
 @stop
 
 @section('body')
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 @stop

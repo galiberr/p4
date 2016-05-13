@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration
                         $table->increments('id');
                         $table->string('user_name')->unique();
                         $table->string('password', 255);
-                        $table->string('email')->unique();
+                        $table->string('email');
                         $table->string('first_name');
                         $table->string('last_name');
                         $table->string('street_addr1');
@@ -30,6 +30,8 @@ class CreateUsersTable extends Migration
                         $table->integer('cc_exp_month')->unsigned();
                         $table->integer('cc_exp_year')->unsigned();
                         $table->string('cc_csv');
+                        $table->double('last_lat');
+                        $table->double('last_lng');
                         $table->rememberToken();
                         $table->timestamps();
                 });

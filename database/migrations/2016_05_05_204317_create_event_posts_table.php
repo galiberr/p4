@@ -18,8 +18,8 @@ class CreateEventPostsTable extends Migration
                         $table->integer('poster_id')->unsigned();
                         $table->string('post');
                         $table->timestamps();
-                        $table->foreign('event_id')->references('id')->on('events');
-                        $table->foreign('poster_id')->references('id')->on('users');
+                        $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+                        $table->foreign('poster_id')->references('id')->on('users')->onDelete('cascade');
                 });
         }
 

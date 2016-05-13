@@ -20,7 +20,7 @@ class CreateEventsTable extends Migration
                         $table->time('end_time');
                         $table->boolean('image');
                         $table->timestamps();
-                        $table->foreign('kj_id')->references('id')->on('users');
+                        $table->foreign('kj_id')->references('id')->on('users')->onDelete('cascade');
                         $table->foreign('locale_id')->references('id')->on('locales');
                 });
         }

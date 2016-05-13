@@ -17,8 +17,8 @@ class CreateLocalesTable extends Migration
                         $table->string('gm_place_id');
                         $table->string('gm_name');
                         $table->string('gm_formatted_address');
-                        $table->string('gm_lat');
-                        $table->string('gm_lng');
+                        $table->double('gm_lat');
+                        $table->double('gm_lng');
                         $table->timestamps();
                 });
         }

@@ -56,9 +56,9 @@ function initAutocomplete() {
                 places.forEach(function (place) {
                         document.getElementById('gm_name').value = place.name;
                         document.getElementById('gm_formatted_address').value = place.formatted_address;
-                        document.getElementById('gm_place_id').val(place.place_id);
-                        document.getElementById('gm_lat').val(place.geometry.location.lat());
-                        document.getElementById('gm_lng').val(place.geometry.location.lng());
+                        document.getElementById('gm_place_id').value = (place.place_id);
+                        document.getElementById('gm_lat').value = (place.geometry.location.lat());
+                        document.getElementById('gm_lng').value = (place.geometry.location.lng());
                         var icon = {
                                 url: place.icon,
                                 size: new google.maps.Size(71, 71),

@@ -20,16 +20,20 @@
                         {{-- Login status/registration --}}
                         <div class="row">
                                 <div class="col-lg-9">
+                                        <p class="text-danger">
                                         @if(Session::get('flash_message') != null)
                                             {{ Session::get('flash_message') }}
                                         @endif
+                                        </p>
                                 </div>
                                 <div class="col-lg-3">
+                                        <p class="text-primary">
                                         @if(Auth::check())
                                         Welcome, {{ Auth::user()->user_name }}! <a href="/logout">Logout</a>
                                         @else
                                         <a href="/login">Login</a>  Not a user? <a href="/register">Register</a>
                                         @endif
+                                        </p>
                                 </div>
                         </div>
                         <nav class="navbar navbar-default">
