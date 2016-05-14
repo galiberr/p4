@@ -24,10 +24,12 @@ class Event {
                 $event->locale_id = $locale->id;
                 $event->recurring = ($request->eventType == 0);
                 $event->day_of_week = $request->day_of_week;
-                $event->next_date = $request->next_date;
-                $event->start_time = $request->start_time + ($request->start_timeAMPM * 12);
-                $event->end_time = $request->end_time + ($request->end_timeAMPM * 12);
-                $event->end_time = $request->hasFile('image') && $request->file('image')->isValid();
+                $event->next_date = \Carbon\Carbon::createFromFormat('m/d/Y', $request->next_date);
+                $start_time = intval($request->start_time) + (intval($request->start_time_AMPM) * 1200);
+                $event->start_time = \Carbon\Carbon::createFromTime((int) ($start_time / 100), ($start_time % 100), 0);
+                $end_time = intval($request->end_time) + (intval($request->end_time_AMPM) * 1200);
+                $event->end_time = \Carbon\Carbon::createFromTime((int) ($end_time / 100), ($end_time % 100), 0);
+                $event->image = $request->hasFile('image') && $request->file('image')->isValid();
                 $event->save();
                 if ($request->hasFile('image') && $request->file('image')->isValid()) {
                         $request->file('image')->move(base_path() . '/public/assets/uploads/events' . $event->id . '/', 'original');
@@ -46,10 +48,12 @@ class Event {
                 $event->locale_id = $locale->id;
                 $event->recurring = ($request->eventType == 0);
                 $event->day_of_week = $request->day_of_week;
-                $event->next_date = $request->next_date;
-                $event->start_time = $request->start_time + ($request->start_timeAMPM * 12);
-                $event->end_time = $request->end_time + ($request->end_timeAMPM * 12);
-                $event->end_time = $request->hasFile('image') && $request->file('image')->isValid();
+                $event->next_date = \Carbon\Carbon::createFromFormat('m/d/Y', $request->next_date);
+                $start_time = intval($request->start_time) + (intval($request->start_time_AMPM) * 1200);
+                $event->start_time = \Carbon\Carbon::createFromTime((int) ($start_time / 100), ($start_time % 100), 0);
+                $end_time = intval($request->end_time) + (intval($request->end_time_AMPM) * 1200);
+                $event->end_time = \Carbon\Carbon::createFromTime((int) ($end_time / 100), ($end_time % 100), 0);
+                $event->image = $request->hasFile('image') && $request->file('image')->isValid();
                 $event->save();
                 if ($request->hasFile('image') && $request->file('image')->isValid()) {
                         $request->file('image')->move(base_path() . '/public/assets/uploads/events' . $event->id . '/', 'original');
