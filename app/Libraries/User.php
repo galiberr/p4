@@ -1,14 +1,31 @@
 <?php
+/*
+ * Author:      Roland Galibert
+ * Date:        May 13, 2016
+ * For:         CSCI E-15 Dynamic Web Applications, Spring 2016 - Project 4
+ * Purpose:     Various functionality supporting user CRUD for KaraokeTracker web application
+ */
 
 namespace App\Libraries;
 use Intervention\Image\ImageManager;
 
 class User {
+        
+        /*
+         * Function: getUser()
+         * Purpose: Returns the user record with the given ID, along with its
+         * associated roles, events and ratings.
+         */
         public static function getUser($user_id) {
                 $user = \App\User::where('id', '=', $user_id)->with('roles')->with('events')->with('ratings')->first();
                 return $user;
         }
         
+        /*
+         * Function: createUser()
+         * Purpose: Executes actual DB creation of an user, based on the
+         * request data.
+         */
         public static function createUser($request) {
                 $user = new \App\User();
                 $user->user_name = $request->input('user_name');
@@ -39,6 +56,10 @@ class User {
                                 break;
                 }
                 
+                /*
+                 * Store any image the user uploaded, as the original as well as display
+                 * and thumbnail.
+                 */
                 if ($request->hasFile('image') && $request->file('image')->isValid()) {
                         $request->file('image')->move(base_path() . '/public/assets/uploads/users/' . $user->id . '/', 'original');
                         \App\Libraries\User::generateDisplayImage(base_path() . '/public/assets/uploads/users/' . $user->id . '/original',
@@ -49,6 +70,11 @@ class User {
                 return $user;
         }
         
+        /*
+         * Function: updateUser()
+         * Purpose: Executes actual DB update of a user, based on the
+         * request data and locale.
+         */
         public static function updateUser($userID, $request) {
                 $user = \App\Libraries\User::getUser($userID);
                 $user->user_name = $request->input('user_name');
@@ -70,6 +96,11 @@ class User {
                 $user->cc_exp_year = $request->input('cc_exp_year');
                 $user->cc_csv = $request->input('cc_csv');
                 $user->save();
+                
+                /*
+                 * Store any image the user uploaded, as the original as well as display
+                 * and thumbnail.
+                 */
                 if ($request->hasFile('image') && $request->file('image')->isValid()) {
                         $request->file('image')->move(base_path() . '/public/assets/uploads/users/' . $user->id . '/', 'original');
                         \App\Libraries\User::generateDisplayImage(base_path() . '/public/assets/uploads/users/' . $user->id . '/original',
@@ -79,6 +110,11 @@ class User {
                 }
         }
         
+        /*
+         * Function: generateDisplayImage()
+         * Purpose: Generates a display image of the image specified by
+         * $sourceFile and saves this to $targetFile.
+         */
         public static function generateDisplayImage($sourceFile, $targetFile) {
                 $height = 150;
                 $width = 150;
@@ -89,6 +125,11 @@ class User {
                 return;
         }
         
+        /*
+         * Function: generateThumbnail()
+         * Purpose: Generates a thumbnail of the image specified by
+         * $sourceFile and saves this to $targetFile.
+         */
         public static function generateThumbnail($sourceFile, $targetFile) {
                 $height = 30;
                 $width = 30;
@@ -99,6 +140,10 @@ class User {
                 return;
         }
         
+        /*
+         * Function: generateSampleImages()
+         * Purpose: Generates display and thumbnail images of seeded users.
+         */
         public static function generateSampleImages() {
                 \App\Libraries\Event::generateDisplayImage(base_path() . '/public/assets/uploads/users/1/original',
                         base_path() . '/public/assets/uploads/users/1/display_image');
@@ -151,6 +196,10 @@ class User {
                 return;
         }
         
+        /*
+         * Function: sendRegistrationEmail()
+         * Purpose: Sends registration confirmation email to specified user.
+         */
         public static function sendRegistrationEmail($user) {
                 \Mail::send([], [], function ($message) use($user) {
                         $message->to($user->email)

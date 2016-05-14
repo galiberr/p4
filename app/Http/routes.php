@@ -1,4 +1,10 @@
 <?php
+/*
+ * Author:      Roland Galibert
+ * Date:        May 13, 2016
+ * For:         CSCI E-15 Dynamic Web Applications, Spring 2016 - Project 4
+ * Purpose:     Routing for KaraokeTracker web application
+ */
 
 /*
  * Authentication/registration
@@ -10,7 +16,7 @@ Route::post('/register', 'UserController@postRegister');
 Route::get('/logout', 'Auth\AuthController@logout');
 
 /*
- * Routes accessible with and without authentication
+ * Routes accessible with or without authentication
  * (index and event search)
  */
 Route::get('/', 'UserController@getIndex');

@@ -1,4 +1,10 @@
 <?php
+/*
+ * Author:      Roland Galibert
+ * Date:        May 13, 2016
+ * For:         CSCI E-15 Dynamic Web Applications, Spring 2016 - Project 4
+ * Purpose:     Various functionality supporting event CRUD for KaraokeTracker web application
+ */
 
 namespace App\Libraries;
 use League\Geotools\Coordinate\Ellipsoid;
@@ -6,16 +12,31 @@ use Toin0u\Geotools\Facade\Geotools;
 use Intervention\Image\ImageManager;
 
 class Event {
+        
+        /*
+         * Function: getEvent()
+         * Purpose: Returns the event record with the given ID.
+         */
         public static function getEvent($event_id) {
                 $event = \App\Event::where('id', '=', $event_id)->with('kj')->with('locale')->with('posts')->first();
                 return $event;
         }
 
+        /*
+         * Function: getEventsForKJID()
+         * Purpose: Returns all events associated with the given KJ (user) ID,
+         * along with associated kj, locale and event post records.
+         */
         public static function getEventsForKJID($kj_id) {
                 $events = \App\Event::where('kj_id', '=', $kj_id)->with('kj')->with('locale')->with('posts')->get();
                 return $events;
         }
 
+        /*
+         * Function: createEvent()
+         * Purpose: Executes actual DB creation of an event, based on the
+         * request data and locale.
+         */
         public static function createEvent($request, $locale) {
                 $event = new \App\Event();
                 $event->title = $request->title;
@@ -31,6 +52,11 @@ class Event {
                 $event->end_time = \Carbon\Carbon::createFromTime((int) ($end_time / 100), ($end_time % 100), 0);
                 $event->image = $request->hasFile('image') && $request->file('image')->isValid();
                 $event->save();
+                
+                /*
+                 * Store any image the user uploaded, as the original as well as display
+                 * and thumbnail.
+                 */
                 if ($request->hasFile('image') && $request->file('image')->isValid()) {
                         $request->file('image')->move(base_path() . '/public/assets/uploads/events' . $event->id . '/', 'original');
                         \App\Libraries\Event::generateDisplayImage(base_path() . '/public/assets/uploads/events' . $event->id . '/original',
@@ -40,6 +66,11 @@ class Event {
                 }
         }
 
+        /*
+         * Function: updateEvent()
+         * Purpose: Executes actual DB update of an event, based on the
+         * request data and locale.
+         */
         public static function updateEvent($request, $locale) {
                 $event = \App\Libraries\Event::getEvent($request->event_id);
                 $event->title = $request->title;
@@ -55,6 +86,11 @@ class Event {
                 $event->end_time = \Carbon\Carbon::createFromTime((int) ($end_time / 100), ($end_time % 100), 0);
                 $event->image = $request->hasFile('image') && $request->file('image')->isValid();
                 $event->save();
+                
+                /*
+                 * Store any image the user uploaded, as the original as well as display
+                 * and thumbnail.
+                 */
                 if ($request->hasFile('image') && $request->file('image')->isValid()) {
                         $request->file('image')->move(base_path() . '/public/assets/uploads/events' . $event->id . '/', 'original');
                         \App\Libraries\Event::generateDisplayImage(base_path() . '/public/assets/uploads/events' . $event->id . '/original',
@@ -65,6 +101,12 @@ class Event {
                 return $event;
         }
 
+        /*
+         * Function: filterByLocation()
+         * Purpose: Takes the events which have been passed in and returns an
+         * array of those which occur within the specified radius of the coordinate
+         * at the speicifed latitude and longitude.
+         */
         public static function filterByLocation($events, $lat, $lng, $radius) {
                 $filteredEvents = [];
                 $totalEventCount = count($events);
@@ -79,6 +121,11 @@ class Event {
                 return $filteredEvents;
         }
         
+        /*
+         * Function: nextDate()
+         * Purpose: Returns the actual date on which the given day of the week
+         * will next occur.
+         */
         public static function nextDate($dayOfWeek) {
                 if (\Carbon\Carbon::now()->dayOfWeek == $dayOfWeek) {
                         return \Carbon\Carbon::now();
@@ -102,6 +149,10 @@ class Event {
                 }
         }
         
+        /*
+         * Function: dayOfWeek()
+         * Purpose: Returns the string form of the input day of the week.
+         */
         public static function dayOfWeek($dayOfWeek) {
                 switch ($dayOfWeek) {
                         case 0:
@@ -120,6 +171,12 @@ class Event {
                                 return 'Saturday';
                 }
         }
+        
+        /*
+         * Function: generateDisplayImage()
+         * Purpose: Generates a display image of the image specified by
+         * $sourceFile and saves this to $targetFile.
+         */
         public static function generateDisplayImage($sourceFile, $targetFile) {
                 $height = 150;
                 $width = 150;
@@ -130,6 +187,11 @@ class Event {
                 return;
         }
         
+        /*
+         * Function: generateThumbnail()
+         * Purpose: Generates a thumbnail of the image specified by
+         * $sourceFile and saves this to $targetFile.
+         */
         public static function generateThumbnail($sourceFile, $targetFile) {
                 $height = 30;
                 $width = 30;
@@ -139,5 +201,4 @@ class Event {
                 $img->save($targetFile);
                 return;
         }
-        
 }
